@@ -1,96 +1,77 @@
-# real-time java web application.
+# About this project
 
-# my project git repository
-https://github.com/koddas/war-web-project
+This project is a simple demo web application using Java annotations. It
+runs on Java 7 and requires an application server, such as
+[Glassfish](https://glassfish.java.net), to run\*. The project, built using
+[Maven](http://maven.apache.org/), will produce a deployable WAR file. It
+outputs JSON using Google's [Gson](http://code.google.com/p/google-gson/)
+library, which is imported and bundled at build time.
 
-## A detailed guide for creating a real-time Python web application using maven,tomcat and deploying it on an AWS EC2 instance launched from a custom Amazon Machine Image (AMI).
+The annotations used are defined in the
+[JAX-RS API](http://en.wikipedia.org/wiki/Java_API_for_RESTful_Web_Services).
 
-## prerequisites for this application
+\*\) Well, it actually doesn't. You can just as well embed a Java web container
+in your project, such as [Jetty](http://eclipse.org/jetty/), and be done with
+it. Using an application server is probably easier for beginners, though. 
 
-### Am using AMI (ubuntu) machine
+# How do I build this project?
 
-1. install java :using (wget) command
-wget https://download.oracle.com/java/17/archive/jdk-17.0.12_linux-aarch64_bin.tar.gz (sha256 )
+You can easily build the code directly from within your IDE of choice (I'm
+personally rather fond of [Eclipse](http://www.eclipse.org)), using its build
+features (in Eclipse, right click the project and select *Run As* ->
+*Maven build*, type *package* into the *Goals* field, then *Run*). If you
+prefer doing stuff more old school, you can use the command line to build the
+project as well. To do so, you need to have Maven installed on your machine.
+Navigate to your project location. Then, simply type
 
-2. Before that we do "sudo apt update" (command)
+    mvn package
 
-3. install maven 
-4. install tomcat :using (wget) command
-   (install tomcat in /opt folder)
-wget https://dlcdn.apache.org/tomcat/tomcat-10/v10.1.40/bin/apache-tomcat-10.1.40.zip
+in your terminal. Your generated WAR file can be found as
+*./target/wwp-1.0.0.war*.
 
-# Step-by-Step Task Instructions.
+# How do I run this project?
 
-## now we have Configure an EC2 Instance.
+First of all, you'll need an application server. For this guide, I'll assume
+you've installed Glassfish (for a guide on doing so, please refer to
+Glassfish's [get started guide](https://glassfish.java.net/getstarted.html)).
 
-Log in to the AWS Management Console and navigate to the EC2 dashboard. Launch an Instance: - Click on "Launch Instance." - Choose the Amazon Linux 2 AMI. - Select an instance type t2.micro (or) t2.mediom for the free tier.
+Navigate to Glassfish's directory. Start Glassfish by executing the following
+command from the command line:
 
-img<> 
-![](javaimages/javak-1.png)
+    glassfish4/bin/asadmin start-domain
 
-Click "Next: Configure Instance Details." Configure
-Instance Details: - Leave default settings or customize as needed. - Click "Next: Add Storage." Configure Storage: - Default settings are usually fine (8 GiB) "
-![](javaimages/javak-2.png)
+Open a new browser window/tab and type in *localhost:4848*. Find the
+*Applications* link in the menu and click it. Next, click the *Deploy* button
+and select *./target/wwp-1.0.0.war*. Once done, click the *Launch*
+link and you're all set to try your new application. It will be made available
+at *http://localhost:8080/wwp-1.0.0*.
 
-'Add any tags for organization, Key: pyt, Value: tomcat. - Click "Next: Configure Security Group." Configure Security Group: - Create a new security group. - Add the following rules:
-http-80 (web)
-ssh-22 (security), Custom TCP-8080
-![](javaimages/javak-3.png)
+# How do I configure my application?
 
-### Click "Review and Launch In stance
+## The web page
 
-Connect via SSH: ssh -i your-key.pem 
-ec2-user@your-public-insteance 
-![](javaimages/2.png)
+The web application (or *servlet* in Java lingo) comes with a very simple web
+page. It is written in
+[JSP](http://www.courses.coreservlets.com/Course-Materials/csajsp2.html), a web
+language akin to ASP or PHP (although I only use standard HTML in this
+example). You can put as many JSP pages as you wish in the *src/main/webapp/*
+folder. Static resources, such as CSS files or images, are put in
+*src/main/webapp/static/* and accessed by linking to *static/style.css* (for an
+example CSS file).
 
-## Now configure ssh connect to your git bash 
-![](javaimages/3.png)
+## The application path
 
-# Install Required Packages
-. Update the Package Repository: sudo apt update -y
-. : sudo apt install java 
-. Install tomcat: sudo apt install tomcat :(/opt fplder)
-![](javaimages/javak-4.png)
+As you'll see, your application's URL needs to be amended with
+*/webapi/service/* in order to actually do something. This isn't something that
+is selected at random, but is set in your *web.xml* file (which you'll find in
+*src/main/webapp/WEB-INF/*), as well as in your servlet Java file.
 
-![](javaimages/javak-5.png)
+The */webapi/* part is set by the *<url-pattern>* directive in *web.xml*. The
+*/service/* part is set by altering the argument to the initial *@Path*
+annotation in the servlet's source code. In this case, that file is
+*WebService.java*, that you'll find in *src/main/java/koddas/web/war*.
 
-![](javaimages/javak-6tom.png)
-
-# clonr your project git repository
-https://github.com/koddas/war-web-project
-
-'Now go to tomcat path and got config folder using cd conf in the conf we have tomcat user.xmlfile in that and remove comment admin and user.
-![](javaimages/14.png)
-
-![](javaimages/javak-tsr9.png)
-
-![](javaimages/javak-login-m10.png)
-
-then got to webapps in that we have manager and host manger in this both folder we have meta-info inat both we have config.xml we comment that .By default, Apache Tomcat deploys web applications from the webapps directory located in the Tomcat home folder. If you want to change this location 
-![](javaimages/javak-wmt8.png)
-![](javaimages/8.png)
-![](javaimages/9.png) 
-
-then you start your tomcat using "./startup.sh"
-![](javaimages/14.png)
-
-# Now got to ur project
-cd web-project
-## build this project
-use the command line to build the project as well. To do so, you need to have Maven installed on your machine. Navigate to your project location."mavn package"
-
-Now you get target folder in taht target folder we have artifact like war file : that war file move to tomcat webapps 
-![](javaimages/28%201.png)
-
-
-Now go to ur your insteance server and copy out publiv ip address past in google like this : 54.174.189.0:8080/wwp-1.0.0/
-![](javaimages/javak-dp12.png)
-
-
-
-
-
-
-
-
-
+By changing these values and rebuilding (and consequent redeploying) your
+project, you'll be able to reach your application with your fancy new path.
+Please note that the links displayed on the web page will not change
+accordingly, as they are set manually.
