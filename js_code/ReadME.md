@@ -115,7 +115,9 @@ ubuntu@ip-172-31-30-177:/var/www/html$ curl ifconfig.me
 
 
 ### access the application
+
 http://<public ip>:80
+
 http://13.218.244.174:80
 
 ![Image](https://github.com/user-attachments/assets/51fc9ede-de8e-4d56-a6db-c2d7b929a26b)
@@ -123,7 +125,9 @@ http://13.218.244.174:80
 
 
 ### commands used
+```bash
   1  nodejs
+  
     2  sudo apt install nodejs
     3  apt update
     4  sudo apt update
@@ -157,3 +161,4 @@ http://13.218.244.174:80
    32  sudo apt install net-tools
    33  netstat -ntpl
    34  curl ifconfig.me
+```
