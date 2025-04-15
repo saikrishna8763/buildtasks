@@ -116,7 +116,7 @@ ubuntu@ip-172-31-30-177:/var/www/html$ curl ifconfig.me
 
 ### access the application
 
-http://<public ip>:80
+http://public_ip:80
 
 http://13.218.244.174:80
 
